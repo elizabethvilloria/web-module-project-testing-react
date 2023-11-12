@@ -3,11 +3,59 @@ import { render, fireEvent, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Episode from "./../Episode";
 
-test("renders without error", () => {});
+const testEpisode = {
+      airdate: "2016-07-15",
+      airstamp: "2016-07-15T12:00:00+00:00",
+      airtime: "",
+      id: 111111,
+      image: "",
+      name: "",
+      number: 1,
+      rating: { average: 8.2 },
+      runtime: 1,
+      season: 1,
+      summary: "test summary",
+      type: "regular",
+      url: "https://www.tvmaze.com/episodes/553946/stranger-things-1x01-chapter-one-the-vanishing-of-will-byers",
+};
 
-test("renders the summary test passed as prop", () => {});
+const testEpisodeWithoutImage = {
+    airdate: "2016-07-15",
+    airstamp: "2016-07-15T12:00:00+00:00",
+    airtime: "",
+    id: 111111,
+    image: null ,
+    name: "",
+    number: 1,
+    rating: { average: 8.2 },
+    runtime: 1,
+    season: 1,
+    summary: "test summary",
+    type: "regular",
+    url: "https://www.tvmaze.com/episodes/553946/stranger-things-1x01-chapter-one-the-vanishing-of-will-byers",
+};
 
-test("renders default image when image is not defined", () => {});
+test("renders without error", () => {
+    render(<Episode episode={testEpisode}/>)    
+});
+
+test("renders the summary test passed as prop", () => {
+    render(<Episode episode={testEpisode}/>);
+
+    const summary = screen.queryByText(/test summary/i);
+
+    expect(summary).toBeInTheDocument();
+    expect(summary).toBeTruthy();
+    expect(summary).toHaveTextContent("test summary");
+});
+
+test("renders default image when image is not defined", () => {
+    render(<Episode episode={testEpisodeWithoutImage} />)
+
+    const image = screen.queryByAltText('https://i.ibb.co/2FsfXqM/stranger-things.png')
+    
+    expect(image).toBeInTheDocument();
+});
 
 // ----- EXAMPLE EPISODE TEST OBJECT -----
 // const exampleEpisodeData = {
